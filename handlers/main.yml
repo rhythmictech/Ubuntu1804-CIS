@@ -70,7 +70,7 @@
       name: auditd
       state: restarted
   when:
-      - ! ubuntu1804cis_skip_for_travis
+      - not ubuntu1804cis_skip_for_travis
   tags:
       - skip_ansible_lint
 
@@ -78,6 +78,6 @@
   become: true
   command: /sbin/augenrules --load
   when:
-      - ! ubuntu1804cis_skip_for_travis
+      - not ubuntu1804cis_skip_for_travis
   tags:
       - skip_ansible_lint

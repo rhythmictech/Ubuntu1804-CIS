@@ -263,7 +263,7 @@
       - systemd restart tmp.mount
   when:
       - ubuntu1804cis_rule_1_1_2
-      - ! ubuntu1804cis_skip_for_travis
+      - not ubuntu1804cis_skip_for_travis
   tags:
       - level2
       - scored
@@ -279,7 +279,7 @@
       state: started
   when:
       - ubuntu1804cis_rule_1_1_2
-      - ! ubuntu1804cis_skip_for_travis
+      - not ubuntu1804cis_skip_for_travis
   tags:
       - level2
       - scored
@@ -481,6 +481,8 @@
   shell: |
       set -o pipefail
       df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t
+  args:
+      executable: /bin/bash
   changed_when: false
   failed_when: false
   when:
@@ -497,7 +499,7 @@
       name: autofs
       enabled: false
   when:
-      - ! ubuntu1804cis_allow_autofs
+      - not ubuntu1804cis_allow_autofs
       - autofs_service_status.stdout == "loaded"
       - ubuntu1804cis_rule_1_1_21
   tags:
@@ -681,6 +683,8 @@
   shell: |
       set -o pipefail
       dmesg | grep -E "NX|XD" | grep " active"
+  args:
+      executable: /bin/bash
   changed_when: false
   when:
       - ubuntu1804cis_rule_1_5_2
